@@ -90,9 +90,14 @@ namespace ScoutAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+
         // POST: api/Adverts
-        [ResponseType(typeof(Advert))]
-        public async Task<IHttpActionResult> PostAdvert(Advert advert)
+
+		[CheckModelForNull]
+		[ValidateModelState]
+		[ResponseType(typeof(Advert))]
+		public async Task<IHttpActionResult> PostAdvert(Advert advert, [FromBody]int? id)
         {
             if (!ModelState.IsValid)
             {

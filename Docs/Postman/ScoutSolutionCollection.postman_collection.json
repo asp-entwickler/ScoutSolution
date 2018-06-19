@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "396298a8-9002-d63c-2cc7-9326e73b871a",
+		"name": "ScoutSolutionCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "All Cars Adverts",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:63000/api/Adverts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63000",
+					"path": [
+						"api",
+						"Adverts"
+					]
+				},
+				"description": "http://localhost:63000/api/Adverts"
+			},
+			"response": []
+		},
+		{
+			"name": "All Adverts sorted by Price descending",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:63000/api/Adverts?sortby=Price&order=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63000",
+					"path": [
+						"api",
+						"Adverts"
+					],
+					"query": [
+						{
+							"key": "sortby",
+							"value": "Price"
+						},
+						{
+							"key": "order",
+							"value": "desc"
+						}
+					]
+				},
+				"description": "http://localhost:63000/api/Adverts?sortby=Price&order=desc"
+			},
+			"response": []
+		},
+		{
+			"name": "Adverts Id = 4",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:63000/api/Adverts/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63000",
+					"path": [
+						"api",
+						"Adverts",
+						"4"
+					]
+				},
+				"description": "http://localhost:63000/api/Adverts/4"
+			},
+			"response": []
+		},
+		{
+			"name": "Adverts id = 1",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "BMW X6",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "fuel",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "22200",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "isNew",
+							"value": "true",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "mileage",
+							"value": "0",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "firstRegistration",
+							"value": "",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:63000/api/Adverts/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63000",
+					"path": [
+						"api",
+						"Adverts",
+						"1"
+					]
+				},
+				"description": "http://localhost:63000/api/Adverts/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Adverts 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Volvo V90 Wagon",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "fuel",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "40000",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "isNew",
+							"value": "0",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "mileage",
+							"value": "",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "firstRegistration",
+							"value": "",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:63000/api/Adverts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63000",
+					"path": [
+						"api",
+						"Adverts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

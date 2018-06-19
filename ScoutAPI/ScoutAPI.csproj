@@ -101,7 +101,9 @@
     <Compile Include="Models\Advert.cs" />
     <Compile Include="Models\FuelEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\CheckModelForNullAttribute.cs" />
     <Compile Include="Source\ScoutExtensions.cs" />
+    <Compile Include="Source\ValidateModelStateAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

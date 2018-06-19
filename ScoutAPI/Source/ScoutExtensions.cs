@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace ScoutAPI.Source
+namespace ScoutAPI
 {
 	public static class ScoutExtensions
 	{
