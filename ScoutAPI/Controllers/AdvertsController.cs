@@ -7,6 +7,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ScoutAPI.Source;
+using System;
+using System.Reflection;
 
 namespace ScoutAPI.Controllers
 {
@@ -15,10 +18,29 @@ namespace ScoutAPI.Controllers
         private DatabaseContext db = new DatabaseContext();
 
         // GET: api/Adverts
-        public IQueryable<Advert> GetAdverts()
+        public IQueryable<Advert> GetAdverts(string sortby = "", string order = "")
         {
-            return db.Adverts;
-        }
+			IQueryable<Advert> result;
+
+			var sortOrder = true;
+			Type advType = typeof(Advert);
+
+			PropertyInfo myPropInfo = advType.GetProperty(sortby);
+			if (myPropInfo != null)
+			{
+				if (!string.IsNullOrEmpty(order))
+					sortOrder = order == "desc" ? false : true;
+
+				result = db.Adverts.AsQueryable().OrderByPropertyName(sortby, sortOrder);
+			}
+			else
+			{
+				result = db.Adverts;
+			}
+
+			return result;
+
+		}
 
         // GET: api/Adverts/5
         [ResponseType(typeof(Advert))]
