@@ -1,17 +1,29 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ScoutAPI.Models
 {
 	public class Advert
 	{
+		[Key]
+		public int Id { get; set; }
 
-		int Id { get; set; }
-		string Title { get; set; }
-		FuelEnum Fuel { get; set; }
-		int Price { get; set; }
-		bool isNew { get; set; }
-		int Mileage { get; set; }
-		DateTime FirstRegistration { get; set; }
+		[Required]
+		public string Title { get; set; }
+
+		[Required]
+		public FuelEnum Fuel { get; set; }
+
+		[Required]
+		public int Price { get; set; }
+
+		[Required]
+		public bool IsNew { get; set; }
+
+		public int Mileage { get; set; }
+
+		//[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+		public DateTime? FirstRegistration { get; set; }
 
 	}
 }

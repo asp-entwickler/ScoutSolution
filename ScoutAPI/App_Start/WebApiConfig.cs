@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json.Serialization;
 using System.Web.Http;
 
 namespace ScoutAPI
 {
-    public static class WebApiConfig
+	public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
@@ -19,6 +17,14 @@ namespace ScoutAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-        }
+
+			// JSON formatter
+			config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+			config.Formatters.JsonFormatter.SerializerSettings.Formatting =
+				Newtonsoft.Json.Formatting.Indented;
+			config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+				new CamelCasePropertyNamesContractResolver();
+
+		}
     }
 }
