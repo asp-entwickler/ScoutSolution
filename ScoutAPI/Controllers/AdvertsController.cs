@@ -1,20 +1,28 @@
 ﻿using ScoutAPI.Context;
+using ScoutAPI.DAL;
 using ScoutAPI.Models;
-using System.Data.Entity;
+using System;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System;
-using System.Reflection;
+
 
 namespace ScoutAPI.Controllers
 {
 	public class AdvertsController : ApiController
     {
-        private DatabaseContext db = new DatabaseContext();
+		private DatabaseContext db = new DatabaseContext();
+
+		IAdvertRepository advertRepository;
+
+		public AdvertsController()
+		{
+			advertRepository = new AdvertRepository(new DatabaseContext());
+		}
 
         // GET: api/Adverts
         public IQueryable<Advert> GetAdverts(string sortby = "id", string order = "")
@@ -30,11 +38,11 @@ namespace ScoutAPI.Controllers
 				if (!string.IsNullOrEmpty(order))
 					sortOrder = order == "desc" ? false : true;
 
-				result = db.Adverts.AsQueryable().OrderByPropertyName(sortby, sortOrder);
+				result = advertRepository.GetAdverts().AsQueryable().OrderByPropertyName(sortby, sortOrder);
 			}
 			else
 			{
-				result = db.Adverts.AsQueryable().OrderByPropertyName(sortby, true);
+				result = advertRepository.GetAdverts().AsQueryable().OrderByPropertyName("id", true);
 			}
 
 			return result;
@@ -45,7 +53,7 @@ namespace ScoutAPI.Controllers
         [ResponseType(typeof(Advert))]
         public async Task<IHttpActionResult> GetAdvert(int id)
         {
-            Advert advert = await db.Adverts.FindAsync(id);
+            Advert advert = await advertRepository.GetAdvertByID(id);
             if (advert == null)
             {
                 return NotFound();
@@ -55,7 +63,7 @@ namespace ScoutAPI.Controllers
 
 		// PUT: api/Adverts/5
 		[ValidateModelForNull(ActionModelParameterName = "advert")]
-		//[ResponseType(typeof(void))]
+		[ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutAdvert(int id, Advert advert)
         {
             if (!ModelState.IsValid)
@@ -68,25 +76,25 @@ namespace ScoutAPI.Controllers
                 return BadRequest();
             }
 
-            db.Entry(advert).State = EntityState.Modified;
+			advertRepository.UpdateAdvert(advert);
 
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdvertExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+			try
+			{
+				await advertRepository.SaveAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!AdvertExists(id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
 
-            return StatusCode(HttpStatusCode.NoContent);
+			return StatusCode(HttpStatusCode.NoContent);
         }
 
 		[SkipIdValidation]
@@ -99,37 +107,28 @@ namespace ScoutAPI.Controllers
 			{
                 return BadRequest(ModelState);
             }
-			
-			db.Adverts.Add(advert);
-            await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = advert.Id }, advert);
+			advertRepository.InsertAdvert(advert);
+			await advertRepository.SaveAsync();
+
+			return CreatedAtRoute("DefaultApi", new { id = advert.Id }, advert);
         }
 
         // DELETE: api/Adverts/5
         [ResponseType(typeof(Advert))]
         public async Task<IHttpActionResult> DeleteAdvert(int id)
         {
-            Advert advert = await db.Adverts.FindAsync(id);
-            if (advert == null)
+			Advert advert = await advertRepository.GetAdvertByID(id);
+
+			if (advert == null)
             {
                 return NotFound();
             }
 
-            db.Adverts.Remove(advert);
-            await db.SaveChangesAsync();
-
-            return Ok(advert);
+			advertRepository.DeleteAdvert(id);
+			await advertRepository.SaveAsync();
+			return Ok(advert);
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
 
         private bool AdvertExists(int id)
         {

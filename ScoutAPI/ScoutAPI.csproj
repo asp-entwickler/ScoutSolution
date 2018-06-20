@@ -95,6 +95,8 @@
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Context\DatabaseInitializer.cs" />
     <Compile Include="Controllers\AdvertsController.cs" />
+    <Compile Include="DAL\AdvertRepository.cs" />
+    <Compile Include="DAL\IAdvertRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
