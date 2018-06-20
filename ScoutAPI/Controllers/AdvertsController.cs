@@ -17,7 +17,7 @@ namespace ScoutAPI.Controllers
         private DatabaseContext db = new DatabaseContext();
 
         // GET: api/Adverts
-        public IQueryable<Advert> GetAdverts(string sortby = "", string order = "")
+        public IQueryable<Advert> GetAdverts(string sortby = "id", string order = "")
         {
 			IQueryable<Advert> result;
 
@@ -34,7 +34,7 @@ namespace ScoutAPI.Controllers
 			}
 			else
 			{
-				result = db.Adverts;
+				result = db.Adverts.AsQueryable().OrderByPropertyName(sortby, true);
 			}
 
 			return result;
