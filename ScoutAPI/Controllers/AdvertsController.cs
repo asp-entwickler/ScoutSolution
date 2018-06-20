@@ -7,7 +7,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ScoutAPI.Source;
 using System;
 using System.Reflection;
 
@@ -51,12 +50,12 @@ namespace ScoutAPI.Controllers
             {
                 return NotFound();
             }
-
             return Ok(advert);
         }
 
-        // PUT: api/Adverts/5
-        [ResponseType(typeof(void))]
+		// PUT: api/Adverts/5
+		[ValidateModelForNull(ActionModelParameterName = "advert")]
+		//[ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutAdvert(int id, Advert advert)
         {
             if (!ModelState.IsValid)
@@ -90,21 +89,18 @@ namespace ScoutAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-
-
-        // POST: api/Adverts
-
-		[CheckModelForNull]
-		[ValidateModelState]
+		[SkipIdValidation]
+		[ValidateModelForNull(ActionModelParameterName = "advert")]
 		[ResponseType(typeof(Advert))]
-		public async Task<IHttpActionResult> PostAdvert(Advert advert, [FromBody]int? id)
+		public async Task<IHttpActionResult> PostAdvert(Advert advert)
         {
-            if (!ModelState.IsValid)
-            {
+
+			if (!ModelState.IsValid)
+			{
                 return BadRequest(ModelState);
             }
-
-            db.Adverts.Add(advert);
+			
+			db.Adverts.Add(advert);
             await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = advert.Id }, advert);
@@ -126,14 +122,14 @@ namespace ScoutAPI.Controllers
             return Ok(advert);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
         private bool AdvertExists(int id)
         {

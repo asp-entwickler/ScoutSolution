@@ -89,7 +89,7 @@
 			"response": []
 		},
 		{
-			"name": "Adverts id = 1",
+			"name": "PUT Adverts id = 1",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -109,7 +109,7 @@
 						},
 						{
 							"key": "title",
-							"value": "BMW X6",
+							"value": "BMW X6 X3",
 							"description": "",
 							"type": "text"
 						},
@@ -128,18 +128,6 @@
 						{
 							"key": "isNew",
 							"value": "true",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "mileage",
-							"value": "0",
-							"description": "",
-							"type": "text"
-						},
-						{
-							"key": "firstRegistration",
-							"value": "",
 							"description": "",
 							"type": "text"
 						}
@@ -179,11 +167,12 @@
 							"key": "id",
 							"value": "",
 							"description": "",
-							"type": "text"
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "title",
-							"value": "Volvo V90 Wagon",
+							"value": "Volvo V90 Wagon X8",
 							"description": "",
 							"type": "text"
 						},
@@ -201,26 +190,26 @@
 						},
 						{
 							"key": "isNew",
-							"value": "0",
+							"value": "false",
 							"description": "",
 							"type": "text"
 						},
 						{
 							"key": "mileage",
-							"value": "",
+							"value": "7500",
 							"description": "",
 							"type": "text"
 						},
 						{
 							"key": "firstRegistration",
-							"value": "",
+							"value": "2012-06-19",
 							"description": "",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://localhost:63000/api/Adverts",
+					"raw": "http://localhost:63000/api/Adverts/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -228,7 +217,30 @@
 					"port": "63000",
 					"path": [
 						"api",
-						"Adverts"
+						"Adverts",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Car",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:63000/api/Adverts/21",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "63000",
+					"path": [
+						"api",
+						"Adverts",
+						"21"
 					]
 				}
 			},

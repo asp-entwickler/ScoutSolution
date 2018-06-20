@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ScoutAPI.Models
@@ -20,9 +21,13 @@ namespace ScoutAPI.Models
 		[Required]
 		public bool IsNew { get; set; }
 
+		// only for used cars
+		[RequiredIfVehicleNotNew]
 		public int Mileage { get; set; }
 
-		//[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+		// only for used cars
+		[RequiredIfVehicleNotNew]
+		[JsonConverter(typeof(OnlyDateConverter))]
 		public DateTime? FirstRegistration { get; set; }
 
 	}
