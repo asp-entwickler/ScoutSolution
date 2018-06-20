@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ScoutAPI.DAL
 {
-	interface IAdvertRepository : IDisposable
+	public interface IAdvertRepository : IDisposable
 	{
 
         IEnumerable<Advert> GetAdverts();

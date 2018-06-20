@@ -13,9 +13,11 @@ namespace ScoutAPI.DAL
 
 		private DatabaseContext context;
 
-		public AdvertRepository(DatabaseContext context)
+		public AdvertRepository()
 		{
-			this.context = context;
+			// TODO Inject DB Context
+
+			context = new DatabaseContext();
 		}
 
 		public IEnumerable<Advert> GetAdverts()
@@ -69,8 +71,5 @@ namespace ScoutAPI.DAL
 			GC.SuppressFinalize(this);
 		}
 	}
-
-
-
 
 }

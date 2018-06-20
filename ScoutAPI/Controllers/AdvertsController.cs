@@ -1,5 +1,4 @@
-﻿using ScoutAPI.Context;
-using ScoutAPI.DAL;
+﻿using ScoutAPI.DAL;
 using ScoutAPI.Models;
 using System;
 using System.Data.Entity.Infrastructure;
@@ -15,17 +14,16 @@ namespace ScoutAPI.Controllers
 {
 	public class AdvertsController : ApiController
     {
-		private DatabaseContext db = new DatabaseContext();
 
-		IAdvertRepository advertRepository;
+		private IAdvertRepository _advertRepository;
 
-		public AdvertsController()
+		public AdvertsController(IAdvertRepository advRepository)
 		{
-			advertRepository = new AdvertRepository(new DatabaseContext());
+			_advertRepository = advRepository;
 		}
 
-        // GET: api/Adverts
-        public IQueryable<Advert> GetAdverts(string sortby = "id", string order = "")
+		// GET: api/Adverts
+		public IQueryable<Advert> GetAdverts(string sortby = "id", string order = "")
         {
 			IQueryable<Advert> result;
 
@@ -38,11 +36,11 @@ namespace ScoutAPI.Controllers
 				if (!string.IsNullOrEmpty(order))
 					sortOrder = order == "desc" ? false : true;
 
-				result = advertRepository.GetAdverts().AsQueryable().OrderByPropertyName(sortby, sortOrder);
+				result = _advertRepository.GetAdverts().AsQueryable().OrderByPropertyName(sortby, sortOrder);
 			}
 			else
 			{
-				result = advertRepository.GetAdverts().AsQueryable().OrderByPropertyName("id", true);
+				result = _advertRepository.GetAdverts().AsQueryable().OrderByPropertyName("id", true);
 			}
 
 			return result;
@@ -53,7 +51,7 @@ namespace ScoutAPI.Controllers
         [ResponseType(typeof(Advert))]
         public async Task<IHttpActionResult> GetAdvert(int id)
         {
-            Advert advert = await advertRepository.GetAdvertByID(id);
+            Advert advert = await _advertRepository.GetAdvertByID(id);
             if (advert == null)
             {
                 return NotFound();
@@ -76,11 +74,11 @@ namespace ScoutAPI.Controllers
                 return BadRequest();
             }
 
-			advertRepository.UpdateAdvert(advert);
+			_advertRepository.UpdateAdvert(advert);
 
 			try
 			{
-				await advertRepository.SaveAsync();
+				await _advertRepository.SaveAsync();
 			}
 			catch (DbUpdateConcurrencyException)
 			{
@@ -108,8 +106,8 @@ namespace ScoutAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-			advertRepository.InsertAdvert(advert);
-			await advertRepository.SaveAsync();
+			_advertRepository.InsertAdvert(advert);
+			await _advertRepository.SaveAsync();
 
 			return CreatedAtRoute("DefaultApi", new { id = advert.Id }, advert);
         }
@@ -118,21 +116,21 @@ namespace ScoutAPI.Controllers
         [ResponseType(typeof(Advert))]
         public async Task<IHttpActionResult> DeleteAdvert(int id)
         {
-			Advert advert = await advertRepository.GetAdvertByID(id);
+			Advert advert = await _advertRepository.GetAdvertByID(id);
 
 			if (advert == null)
             {
                 return NotFound();
             }
 
-			advertRepository.DeleteAdvert(id);
-			await advertRepository.SaveAsync();
-			return Ok(advert);
+			_advertRepository.DeleteAdvert(id);
+			await _advertRepository.SaveAsync();
+			return Ok();
         }
 
         private bool AdvertExists(int id)
         {
-            return db.Adverts.Count(e => e.Id == id) > 0;
-        }
+			return _advertRepository.GetAdverts().Count(e => e.Id == id) > 0;
+		}
     }
 }
